@@ -1,26 +1,57 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <div>
+      <ul class="tabs">
+        <li
+          :class="{ tabs__item: true, tabs__item_selected: selectedComponent === list }"
+          @click="changeComponent(list)"
+        >Список</li>
+        <li
+          :class="{ tabs__item: true, tabs__item_selected: selectedComponent === converter }"
+          @click="changeComponent(converter)"
+        >Конвертер</li>
+      </ul>
+    </div>
+    <div class="content">
+      <keep-alive>
+        <component :is="component" />
+      </keep-alive>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import { defineAsyncComponent, ref } from "vue";
+import components from "@/store/constants";
+const CurrenciesList = defineAsyncComponent(() => import("@/views/currencies/CurrenciesList.vue"));
+const CurrenciesConverter = defineAsyncComponent(() => import("@/views/currencies/CurrenciesConverter.vue"));
 
 export default {
   name: "App",
-  components: {
-    HelloWorld,
+  components: { CurrenciesList, CurrenciesConverter },
+  setup() {
+    let component = ref("CurrenciesList");
+    let selectedComponent = ref(components.COMPONENT_CURRENCIES_LIST);
+    function changeComponent(changableComponent) {
+      if (changableComponent === components.COMPONENT_CURRENCIES_LIST && selectedComponent.value !== components.COMPONENT_CURRENCIES_LIST) {
+        component.value = 'CurrenciesList';
+        selectedComponent.value = components.COMPONENT_CURRENCIES_LIST;
+        return;
+      }
+      if (changableComponent === components.COMPONENT_CURRENCIES_CONVERTER && selectedComponent.value !== components.COMPONENT_CURRENCIES_CONVERTER) {
+        component.value = 'CurrenciesConverter';
+        selectedComponent.value = components.COMPONENT_CURRENCIES_CONVERTER;
+        return;
+      }
+    }
+
+    return {
+      component,
+      list: components.COMPONENT_CURRENCIES_LIST,
+      converter: components.COMPONENT_CURRENCIES_CONVERTER,
+      selectedComponent,
+      changeComponent,
+    };
   },
 };
 </script>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

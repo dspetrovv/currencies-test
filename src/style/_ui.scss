@@ -1,0 +1,71 @@
+* {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgb(190, 190, 190);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(110, 110, 110);
+    border-radius: 5px;
+  }
+}
+.radio {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.drop-down {
+  position: relative;
+  align-self: center;
+  &__button {
+    @include btn;
+    z-index: 2;
+  }
+  &__block {
+    display: block;
+    background-color: white;
+    width: 100%;
+    position: absolute;
+    box-shadow: 0 0 2px 1px gray;
+    border-radius: 5px;
+    margin-top: 5px;
+    z-index: 1;
+    &_hidden {
+      display: none;
+    }
+  }
+  &__list {
+    max-height: 75px;
+    overflow-y: auto;
+    margin: 3px 2px 3px 0px;
+    list-style: none;
+    padding: 0;
+    li {
+      cursor: pointer;
+      padding: 3px 14px;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+select {
+  height: 100%;
+  overflow-y: auto;
+  margin: 3px 2px 3px 2px;
+  list-style: none;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  outline: none;
+  option {
+    cursor: pointer;
+    padding: 3px 14px;
+    outline: none;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+input {
+  @include input;
+}
